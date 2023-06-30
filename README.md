@@ -1,2 +1,3 @@
 # video-spider
-Nothing...
+=====================
+>third-party dependences: requests
