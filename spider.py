@@ -4,7 +4,7 @@ import threading
 import typing
 
 import requests
-import FileTools
+import filetools
 
 
 class Spider(object):
@@ -75,7 +75,7 @@ class Writer(Spider):
         lock = threading.Lock()
         rest = list()
         current = self.start
-        fd = FileTools.DirFileManager(file='out.ts')
+        fd = filetools.DirFileManager(file='out.ts')
 
         while True:
             try:
