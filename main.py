@@ -5,7 +5,7 @@ import spider
 
 
 async def main():
-    base = "https://vip.lz-cdn14.com/20221210/16181_062349e7/2000k/hls/ca9cd59ecd0@@@@@@.ts"
+    base = "HERE!"
     spider.Spider.set_url(base)
 
     loop = asyncio.get_event_loop()
