@@ -39,6 +39,30 @@ def start_and_exit_sign(debug=True):
     return check_debug_option
 
 
+def runtime(func, times=8, count_sleep=True, *args, **kwargs):
+    if count_sleep:
+        sign_time = time.perf_counter
+    else:
+        sign_time = time.process_time
+
+    process_time = []
+    for i in range(times):
+        t1 = sign_time()
+        func(*args, **kwargs)
+        t2 = sign_time()
+        process_time.append((t1, t2, t2 - t1))
+
+    n = 0
+    total = 0
+    for t1, t2, delta_t in process_time:
+        print(f"Process_{n}: ({t1}s, {t2}s)")
+        total += delta_t
+        n += 1
+
+    average = total / times
+    print(f"Average run time: {average}")
+
+
 l = Lock()
 
 
