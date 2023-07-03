@@ -61,7 +61,8 @@ def runtime(func, *args, times=8, count_sleep=True, **kwargs):
     if not count_sleep:
         CountTimeThread.set_counter(time.process_time)
 
-    threads = [CountTimeThread(target=func, name=f"Thread-{i}", args=args, kwargs=kwargs) for i in range(times)]
+    threads = [CountTimeThread(target=func, name=f"Thread-{i}", args=args, kwargs=kwargs)
+               for i in range(times)]
     for thd in threads:
         thd.start()
     for thd in threads:
