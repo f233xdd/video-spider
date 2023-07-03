@@ -1,4 +1,6 @@
 # unit test
+import time
+
 import debug
 from spider import *
 
@@ -80,3 +82,9 @@ class TestSpider(Spider):
                 index += 1
 
 
+def l(t, s):
+    print(s)
+    time.sleep(t)
+
+
+runtime(l, 3, times=5, s='qwq')
