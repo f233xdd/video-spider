@@ -1,6 +1,6 @@
 import functools
 import time
-from threading import Lock
+from threading import Lock, Thread
 
 
 def counter(debug=True):
@@ -39,25 +39,37 @@ def start_and_exit_sign(debug=True):
     return check_debug_option
 
 
+class CountTimeThread(Thread):
+    _sign_time = time.perf_counter
+
+    def __init__(self, target, name, args, kwargs):
+        super().__init__(target=target, name=name, args=args, kwargs=kwargs)
+        self.delta_t = None
+
+    @classmethod
+    def set_counter(cls, func):
+        cls._sign_time = func
+
+    def run(self) -> None:
+        t1 = self._sign_time()
+        super().run()
+        t2 = self._sign_time()
+        self.delta_t = t2 - t1
+
+
 def runtime(func, times=8, count_sleep=True, *args, **kwargs):
-    if count_sleep:
-        sign_time = time.perf_counter
-    else:
-        sign_time = time.process_time
+    if not count_sleep:
+        CountTimeThread.set_counter(time.process_time)
 
-    process_time = []
-    for i in range(times):
-        t1 = sign_time()
-        func(*args, **kwargs)
-        t2 = sign_time()
-        process_time.append((t1, t2, t2 - t1))
+    threads = [CountTimeThread(target=func, name=f"Thread-{i}", args=args, kwargs=kwargs) for i in range(times)]
+    for thd in threads:
+        thd.start()
+    for thd in threads:
+        thd.join()
 
-    n = 0
     total = 0
-    for t1, t2, delta_t in process_time:
-        print(f"Process_{n}: ({t1}s, {t2}s)")
-        total += delta_t
-        n += 1
+    for thread in threads:
+        total += thread.delta_t
 
     average = total / times
     print(f"Average run time: {average}")
