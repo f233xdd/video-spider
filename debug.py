@@ -80,12 +80,14 @@ l = Lock()
 
 
 def mark(n):
-    d = {1: "FST",
-         2: "SEC",
-         3: "TRD",
-         4: "FOR",
-         5: "FIF",
-         }
+    d = [
+         "ZER",
+         "FST",
+         "SEC",
+         "TRD",
+         "FOR",
+         "FIF",
+         ]
 
     with l:
         print(f"====================Mark Point[{d[n]}]====================")
