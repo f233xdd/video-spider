@@ -87,4 +87,4 @@ def l(t, s):
     time.sleep(t)
 
 
-runtime(l, 3, times=5, s='qwq')
+runtime(l, 3, times=5)

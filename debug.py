@@ -57,7 +57,7 @@ class CountTimeThread(Thread):
         self.delta_t = t2 - t1
 
 
-def runtime(func, *args, times=8, count_sleep=True, **kwargs):
+def runtime(func, args=(), kwargs=None, times=8, count_sleep=True):
     if not count_sleep:
         CountTimeThread.set_counter(time.process_time)
 
