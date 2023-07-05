@@ -59,7 +59,7 @@ class Downloader(Spider):
                 priority, url = next(self._urls)
 
                 with lock:
-                    page = requests.get(url=url, timeout=2)
+                    page = requests.get(url=url, timeout=(3.05, 9))
 
                 if page.status_code == 200:
                     self._queue.put((priority, page.content), block=True)  # 在队列中放入列表
