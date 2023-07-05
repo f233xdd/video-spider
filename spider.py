@@ -3,6 +3,7 @@ import sys
 import queue
 import threading
 import typing
+import datetime
 
 import requests
 import filetools
@@ -91,7 +92,10 @@ class Writer(Spider):
         super().__init__(name)
 
     def write(self):
-        error_log = open('error.log', 'a')
+        error_log = open("error.log", 'a')
+        date = datetime.date.today()
+        error_log.write(f"[{date.year}//{date.month}//{date.day}]>")
+
         lock = threading.Lock()
         rest = list()
         current = self.start
@@ -121,6 +125,7 @@ class Writer(Spider):
 
             except (TimeoutError, queue.Empty):
                 print(f"TimeOut! | from {self.name}")
+                error_log.write('\n')
                 error_log.close()
                 sys.exit(10)
 
